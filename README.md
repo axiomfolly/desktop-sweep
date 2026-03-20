@@ -118,7 +118,7 @@ SKIP_EXTENSIONS=pdf,docx
 - Apple Silicon or Intel Mac (universal binary)
 - Xcode Command Line Tools (for building from source)
 
-Tested on macOS 26.2 (Tahoe), Apple Silicon (M3).
+Tested on macOS 26.2 (Tahoe), Apple Silicon (M1).
 
 ## Project Structure
 
