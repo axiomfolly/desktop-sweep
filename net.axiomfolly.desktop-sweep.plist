@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>net.axiomfolly.desktop-sweep</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>__HOME__/scripts/archive-desktop.sh</string>
+    </array>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>9</integer><!-- HOUR -->
+        <key>Minute</key>
+        <integer>0</integer><!-- MINUTE -->
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>__HOME__/Desktop/Archive/launchd-stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>__HOME__/Desktop/Archive/launchd-stderr.log</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>
