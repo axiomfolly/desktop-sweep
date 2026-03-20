@@ -109,6 +109,14 @@ SKIP_FILES=notes.txt,todo.md
 SKIP_EXTENSIONS=pdf,docx
 ```
 
+## Requirements
+
+- macOS 13.0 (Ventura) or later
+- Apple Silicon or Intel Mac
+- Xcode Command Line Tools (for building from source)
+
+Tested on macOS 26.2 (Tahoe), Apple Silicon (M3).
+
 ## Project Structure
 
 ```
