@@ -44,8 +44,8 @@ swiftc \
 
 cp "$SCRIPT_DIR/DesktopSweep/Info.plist" "$CONTENTS/Info.plist"
 cp "$SCRIPT_DIR/DesktopSweep/AppIcon.icns" "$CONTENTS/Resources/AppIcon.icns"
-cp "$SCRIPT_DIR/archive-desktop.sh" "$CONTENTS/Resources/"
-cp "$SCRIPT_DIR/config.cfg" "$CONTENTS/Resources/"
+cp "$SCRIPT_DIR/resources/archive-desktop.sh" "$CONTENTS/Resources/"
+cp "$SCRIPT_DIR/resources/config.cfg" "$CONTENTS/Resources/"
 chmod +x "$CONTENTS/Resources/archive-desktop.sh"
 
 echo ""

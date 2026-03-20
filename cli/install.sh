@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PLIST_LABEL="net.axiomfolly.desktop-sweep"
-PLIST_TEMPLATE="$SCRIPT_DIR/$PLIST_LABEL.plist"
+PLIST_TEMPLATE="$SCRIPT_DIR/net.axiomfolly.desktop-sweep.plist"
 DEST_SCRIPT="$HOME/scripts/archive-desktop.sh"
 DEST_PLIST="$HOME/Library/LaunchAgents/$PLIST_LABEL.plist"
 ARCHIVE_DIR="$HOME/Desktop/Archive"
@@ -27,7 +27,7 @@ if [[ -f "$CONFIG_FILE" ]]; then
     echo "Found existing config.cfg — preserving it"
 else
     echo "Installing default config.cfg -> $CONFIG_FILE"
-    cp "$SCRIPT_DIR/config.cfg" "$CONFIG_FILE"
+    cp "$SCRIPT_DIR/../resources/config.cfg" "$CONFIG_FILE"
 fi
 
 # Read schedule from config
@@ -44,7 +44,7 @@ done < "$CONFIG_FILE"
 echo "Schedule: daily at $(printf '%02d:%02d' "$SCHEDULE_HOUR" "$SCHEDULE_MINUTE")"
 
 echo "Installing archive-desktop.sh -> $DEST_SCRIPT"
-cp "$SCRIPT_DIR/archive-desktop.sh" "$DEST_SCRIPT"
+cp "$SCRIPT_DIR/../resources/archive-desktop.sh" "$DEST_SCRIPT"
 chmod +x "$DEST_SCRIPT"
 
 if launchctl list "$PLIST_LABEL" &>/dev/null; then
