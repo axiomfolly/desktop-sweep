@@ -31,6 +31,12 @@ A native SwiftUI settings app with an optional menu bar icon.
 
 Download the latest `.dmg` from [Releases](https://github.com/axiomfolly/desktop-sweep/releases), open it, and drag **Desktop Sweep** to **Applications**.
 
+Since the app isn't notarized, macOS may show a warning on first launch. Fix it by running:
+
+```bash
+xattr -cr /Applications/Desktop\ Sweep.app
+```
+
 On first launch the app automatically installs the shell script and launchd agent. All settings are managed through the GUI.
 
 ### Build from Source
