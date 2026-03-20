@@ -58,7 +58,7 @@ If you prefer no GUI, the shell script and launchd agent work standalone.
 
 ```bash
 cd ~/Documents/git/desktop-cleaner
-./install.sh
+./cli/install.sh
 ```
 
 ### Usage
@@ -112,20 +112,23 @@ SKIP_EXTENSIONS=pdf,docx
 ## Project Structure
 
 ```
-├── archive-desktop.sh               # Shell script (core logic)
-├── config.cfg                        # Default config template
-├── net.axiomfolly.desktop-sweep.plist # launchd plist template
-├── install.sh                        # Standalone CLI installer
-├── build.sh                          # Builds Desktop Sweep.app
-├── DesktopSweep/                     # SwiftUI app source
+├── DesktopSweep/                      # SwiftUI app source
 │   ├── DesktopSweepApp.swift
 │   ├── Info.plist
+│   ├── AppIcon.icns
 │   ├── Models/SweepConfig.swift
 │   ├── Views/SettingsView.swift
 │   ├── Views/SkipListEditor.swift
 │   └── Services/
 │       ├── ScriptRunner.swift
 │       └── LaunchdManager.swift
+├── cli/                               # Standalone CLI installer
+│   ├── install.sh
+│   └── net.axiomfolly.desktop-sweep.plist
+├── resources/                         # Shared resources
+│   ├── archive-desktop.sh
+│   └── config.cfg
+├── build.sh
 └── README.md
 ```
 
