@@ -54,6 +54,56 @@ chmod +x "$CONTENTS/Resources/archive-desktop.sh"
 
 echo ""
 echo "Build complete: $APP_BUNDLE"
+
+# --- Create DMG with drag-to-Applications layout ---
+
+VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$CONTENTS/Info.plist")
+DMG_NAME="Desktop-Sweep-v${VERSION}"
+DMG_STAGING="$BUILD_DIR/dmg-staging"
+DMG_TEMP="$BUILD_DIR/temp.dmg"
+DMG_FINAL="$BUILD_DIR/$DMG_NAME.dmg"
+
+echo "Creating DMG installer..."
+
+rm -rf "$DMG_STAGING" "$DMG_TEMP" "$DMG_FINAL"
+mkdir -p "$DMG_STAGING"
+cp -R "$APP_BUNDLE" "$DMG_STAGING/"
+ln -s /Applications "$DMG_STAGING/Applications"
+
+hdiutil create -volname "$APP_NAME" -srcfolder "$DMG_STAGING" \
+    -ov -format UDRW "$DMG_TEMP" > /dev/null
+
+MOUNT_OUT=$(hdiutil attach -readwrite -noverify "$DMG_TEMP")
+MOUNT_DEV=$(echo "$MOUNT_OUT" | head -1 | awk '{print $1}')
+
+osascript <<APPLESCRIPT
+tell application "Finder"
+    tell disk "$APP_NAME"
+        open
+        set current view of container window to icon view
+        set toolbar visible of container window to false
+        set statusbar visible of container window to false
+        set bounds of container window to {400, 150, 900, 500}
+        set theViewOptions to icon view options of container window
+        set arrangement of theViewOptions to not arranged
+        set icon size of theViewOptions to 100
+        set position of item "$APP_NAME.app" of container window to {120, 180}
+        set position of item "Applications" of container window to {380, 180}
+        close
+        open
+        update without registering applications
+    end tell
+end tell
+APPLESCRIPT
+
+sleep 2
+hdiutil detach "$MOUNT_DEV" -quiet
+hdiutil convert "$DMG_TEMP" -format UDZO -o "$DMG_FINAL" > /dev/null
+rm -f "$DMG_TEMP"
+rm -rf "$DMG_STAGING"
+
+echo ""
+echo "DMG ready: $DMG_FINAL"
 echo ""
 echo "To run:     open \"$APP_BUNDLE\""
-echo "To install: cp -R \"$APP_BUNDLE\" /Applications/"
+echo "To install: Open the DMG and drag Desktop Sweep to Applications"

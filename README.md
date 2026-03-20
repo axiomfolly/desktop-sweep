@@ -27,18 +27,21 @@ Desktop Sweep automatically moves old files from your Desktop into date-organize
 
 A native SwiftUI settings app with an optional menu bar icon.
 
-### Build & Install
+### Install from DMG
 
-```bash
-git clone <repo-url> ~/Documents/git/desktop-cleaner
-cd ~/Documents/git/desktop-cleaner
-./build.sh
-cp -R "build/Desktop Sweep.app" /Applications/
-```
-
-Requires Xcode Command Line Tools (`xcode-select --install`).
+Download the latest `.dmg` from [Releases](https://github.com/axiomfolly/desktop-sweep/releases), open it, and drag **Desktop Sweep** to **Applications**.
 
 On first launch the app automatically installs the shell script and launchd agent. All settings are managed through the GUI.
+
+### Build from Source
+
+```bash
+git clone https://github.com/axiomfolly/desktop-sweep.git
+cd desktop-sweep
+./build.sh
+```
+
+Requires Xcode Command Line Tools (`xcode-select --install`). Produces `build/Desktop-Sweep-v1.0.0.dmg`.
 
 ### Features
 
