@@ -8,13 +8,6 @@ BUILD_DIR="$SCRIPT_DIR/build"
 APP_BUNDLE="$BUILD_DIR/$APP_NAME.app"
 CONTENTS="$APP_BUNDLE/Contents"
 
-ARCH="$(uname -m)"
-if [[ "$ARCH" == "arm64" ]]; then
-    TARGET="arm64-apple-macos13.0"
-else
-    TARGET="x86_64-apple-macos13.0"
-fi
-
 SDK="$(xcrun --show-sdk-path)"
 
 SOURCES=(
@@ -26,21 +19,32 @@ SOURCES=(
     "$SCRIPT_DIR/DesktopSweep/Services/LaunchdManager.swift"
 )
 
-echo "Building $APP_NAME ($ARCH)..."
+echo "Building $APP_NAME (universal: arm64 + x86_64)..."
 
 rm -rf "$BUILD_DIR"
-mkdir -p "$CONTENTS/MacOS" "$CONTENTS/Resources"
+mkdir -p "$CONTENTS/MacOS" "$CONTENTS/Resources" "$BUILD_DIR/tmp"
 
-swiftc \
-    -target "$TARGET" \
-    -sdk "$SDK" \
-    -framework SwiftUI \
-    -framework AppKit \
-    -framework Combine \
-    -parse-as-library \
-    -O \
-    -o "$CONTENTS/MacOS/$EXECUTABLE" \
-    "${SOURCES[@]}"
+for arch in arm64 x86_64; do
+    echo "  Compiling for $arch..."
+    swiftc \
+        -target "${arch}-apple-macos13.0" \
+        -sdk "$SDK" \
+        -framework SwiftUI \
+        -framework AppKit \
+        -framework Combine \
+        -parse-as-library \
+        -O \
+        -o "$BUILD_DIR/tmp/$EXECUTABLE-$arch" \
+        "${SOURCES[@]}"
+done
+
+echo "  Creating universal binary..."
+lipo -create \
+    "$BUILD_DIR/tmp/$EXECUTABLE-arm64" \
+    "$BUILD_DIR/tmp/$EXECUTABLE-x86_64" \
+    -output "$CONTENTS/MacOS/$EXECUTABLE"
+
+rm -rf "$BUILD_DIR/tmp"
 
 cp "$SCRIPT_DIR/DesktopSweep/Info.plist" "$CONTENTS/Info.plist"
 cp "$SCRIPT_DIR/DesktopSweep/AppIcon.icns" "$CONTENTS/Resources/AppIcon.icns"

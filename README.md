@@ -112,7 +112,7 @@ SKIP_EXTENSIONS=pdf,docx
 ## Requirements
 
 - macOS 13.0 (Ventura) or later
-- Apple Silicon or Intel Mac
+- Apple Silicon or Intel Mac (universal binary)
 - Xcode Command Line Tools (for building from source)
 
 Tested on macOS 26.2 (Tahoe), Apple Silicon (M3).
